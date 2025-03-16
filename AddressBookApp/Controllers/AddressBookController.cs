@@ -1,4 +1,7 @@
+using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using ModelLayer.DTO;
 using RepositoryLayer.Entity;
 
 namespace AddressBookApp.Controllers
@@ -7,6 +10,16 @@ namespace AddressBookApp.Controllers
     [Route("api/[controller]")]
     public class AddressBookController : ControllerBase
     {
+        private readonly IMapper _mapper;
+        private readonly IValidator<AddressBookDTO> _validator;
+
+        public AddressBookController(IMapper mapper, IValidator<AddressBookDTO> validator)
+        {
+            _mapper = mapper;
+            _validator = validator;
+        }
+
+
         // GET: api/addressbook , Fetch all contacts
         [HttpGet]
         public IActionResult GetAllContacts()

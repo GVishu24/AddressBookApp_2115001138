@@ -1,9 +1,20 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using ModelLayer.Mapping;
+using ModelLayer.Validators;
 using RepositoryLayer.Context;
 using RepositoryLayer.Interface;
 using RepositoryLayer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+// Registering(injecting) AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+//Fluent Validation
+builder.Services.AddValidatorsFromAssemblyContaining<AddressBookValidator>();
+
 
 // Add DbContext
 
