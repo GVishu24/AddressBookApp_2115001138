@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ModelLayer.DTO;
 using ModelLayer.Model;
+using RepositoryLayer.Entity;
 
-namespace ModelLayer.Mapping
+
+namespace BusinessLayer.Mapping
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            // Map AddressBookEntry ↔ AddressBookDTO
-            CreateMap<AddressBookEntry, AddressBookDTO>().ReverseMap();
+            CreateMap<AddressBookEntity, AddressBookDTO>().ReverseMap();
         }
     }
 }

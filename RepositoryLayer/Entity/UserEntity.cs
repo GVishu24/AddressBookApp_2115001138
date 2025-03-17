@@ -21,7 +21,7 @@ namespace RepositoryLayer.Entity
         [Required]
         public string Password { get; set; } = string.Empty;
 
-        public ICollection<AddressBookEntity> AddressBooks { get; set; } = new List<AddressBookEntity>();
+        //public ICollection<AddressBookEntity> AddressBooks { get; set; } = new List<AddressBookEntity>();
 
 
 

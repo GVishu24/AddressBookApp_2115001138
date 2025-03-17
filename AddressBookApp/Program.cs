@@ -1,6 +1,8 @@
+using BusinessLayer.Interface;
+using BusinessLayer.Services;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using ModelLayer.Mapping;
+using BusinessLayer.Mapping;
 using ModelLayer.Validators;
 using RepositoryLayer.Context;
 using RepositoryLayer.Interface;
@@ -24,6 +26,7 @@ builder.Services.AddDbContext<AddressBookDbContext>(options =>
 
 // Register Repository & Business Layer Services
 builder.Services.AddScoped<IAddressBookRL, AddressBookRL>();
+builder.Services.AddScoped<IAddressBookBL, AddressBookBL>();
 
 
 // Add services to the container.

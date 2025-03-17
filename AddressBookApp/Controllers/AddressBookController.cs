@@ -1,4 +1,5 @@
 using AutoMapper;
+using BusinessLayer.Interface;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.DTO;
@@ -10,63 +11,49 @@ namespace AddressBookApp.Controllers
     [Route("api/[controller]")]
     public class AddressBookController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IValidator<AddressBookDTO> _validator;
+        private readonly IAddressBookBL _addressBookBL;
 
-        public AddressBookController(IMapper mapper, IValidator<AddressBookDTO> validator)
+        public AddressBookController(IAddressBookBL addressBookBL)
         {
-            _mapper = mapper;
-            _validator = validator;
+            _addressBookBL = addressBookBL;
         }
 
-
-        // GET: api/addressbook , Fetch all contacts
         [HttpGet]
         public IActionResult GetAllContacts()
         {
-            // Placeholder response (replace with actual logic later)
-            return Ok("Fetching all contacts...");
+            var contacts = _addressBookBL.GetAllContacts();
+            return Ok(contacts);
         }
 
-        // GET: api/addressbook/{id} , Get contact by ID
         [HttpGet("{id}")]
         public IActionResult GetContactById(int id)
         {
-            // Placeholder response (replace with actual logic later)
-            return Ok($"Fetching contact with ID: {id}");
+            var contact = _addressBookBL.GetContactById(id);
+            if (contact == null) return NotFound("Contact not found.");
+            return Ok(contact);
         }
 
-        // POST: api/addressbook , Add a new contact
         [HttpPost]
-        public IActionResult AddContact([FromBody] AddressBookEntity newContact)
+        public IActionResult AddContact([FromBody] AddressBookDTO addressBookDTO)
         {
-            if (newContact == null)
-                return BadRequest("Contact data is required");
-
-            // Placeholder response (replace with actual logic later)
-            return Ok($"Contact added: {newContact.PersonName}");
+            var newContact = _addressBookBL.AddContact(addressBookDTO);
+            return CreatedAtAction(nameof(GetContactById), new { id = newContact.AddressId }, newContact);
         }
 
-        // PUT: api/addressbook/{id} , Update contact
         [HttpPut("{id}")]
-        public IActionResult UpdateContact(int id, [FromBody] AddressBookEntity updatedContact)
+        public IActionResult UpdateContact(int id, [FromBody] AddressBookDTO addressBookDTO)
         {
-            if (updatedContact == null || id <= 0)
-                return BadRequest("Valid contact data is required");
-
-            // Placeholder response (replace with actual logic later)
-            return Ok($"Contact updated with ID: {id}");
+            var updatedContact = _addressBookBL.UpdateContact(id, addressBookDTO);
+            if (updatedContact == null) return NotFound("Contact not found.");
+            return Ok(updatedContact);
         }
 
-        // DELETE: api/addressbook/{id} , Delete contact
         [HttpDelete("{id}")]
         public IActionResult DeleteContact(int id)
         {
-            if (id <= 0)
-                return BadRequest("Valid contact ID is required");
-
-            // Placeholder response (replace with actual logic later)
-            return Ok($"Contact deleted with ID: {id}");
+            var deleted = _addressBookBL.DeleteContact(id);
+            if (!deleted) return NotFound("Contact not found.");
+            return NoContent();
         }
     }
 }

@@ -25,10 +25,10 @@ namespace RepositoryLayer.Entity
         [Required, EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual UserEntity User { get; set; } = null!;
+        public int UserId { get; set; }
+        
+        //public virtual UserEntity User { get; set; } = null!;
 
 
     }
